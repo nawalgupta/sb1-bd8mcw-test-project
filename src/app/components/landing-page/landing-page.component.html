@@ -1,0 +1,25 @@
+<div class="content-container">
+  <div class="content-area">
+    <h1>Welcome to Our Learning Management System</h1>
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-md-6 clr-col-12" *ngFor="let course of courses">
+        <div class="card">
+          <div class="card-header">
+            {{ course.title }}
+          </div>
+          <div class="card-block">
+            <div class="card-text">
+              Price: ${{ course.price }}
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-sm btn-primary" [routerLink]="['/course', course.id]">View Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!authService.isLoggedIn">
+  <button class="btn btn-primary" (click)="authService.signInWithGoogle()">Sign in with Google</button>
+</div>

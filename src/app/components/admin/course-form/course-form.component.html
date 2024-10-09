@@ -1,0 +1,108 @@
+<div class="content-container">
+  <div class="content-area">
+    <h1>{{ isEditMode ? 'Edit' : 'Create' }} Course</h1>
+    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+      <div class="clr-form-control">
+        <label for="title" class="clr-control-label">Title</label>
+        <div class="clr-control-container">
+          <input type="text" id="title" formControlName="title" class="clr-input">
+        </div>
+      </div>
+      <div class="clr-form-control">
+        <label for="description" class="clr-control-label">Description</label>
+        <div class="clr-control-container">
+          <textarea id="description" formControlName="description" class="clr-textarea"></textarea>
+        </div>
+      </div>
+      <div class="clr-form-control">
+        <label for="price" class="clr-control-label">Price</label>
+        <div class="clr-control-container">
+          <input type="number" id="price" formControlName="price" class="clr-input">
+        </div>
+      </div>
+      <div class="clr-form-control">
+        <label for="categoryId" class="clr-control-label">Category</label>
+        <div class="clr-control-container">
+          <select id="categoryId" formControlName="categoryId" class="clr-select">
+            <option value="">Select a category</option>
+            <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <h2>Units</h2>
+      <div formArrayName="units">
+        <div *ngFor="let unit of units.controls; let i = index">
+          <div [formGroupName]="i">
+            <h3>Unit {{ i + 1 }}</h3>
+            <div class="clr-form-control">
+              <label [for]="'unit-title-' + i" class="clr-control-label">Title</label>
+              <div class="clr-control-container">
+                <input [id]="'unit-title-' + i" type="text" formControlName="title" class="clr-input">
+              </div>
+            </div>
+
+            <h4>Lessons</h4>
+            <div formArrayName="lessons">
+              <div *ngFor="let lesson of unit.get('lessons').controls; let j = index">
+                <div [formGroupName]="j">
+                  <h5>Lesson {{ j + 1 }}</h5>
+                  <div class="clr-form-control">
+                    <label [for]="'lesson-title-' + i + '-' + j" class="clr-control-label">Title</label>
+                    <div class="clr-control-container">
+                      <input [id]="'lesson-title-' + i + '-' + j" type="text" formControlName="title" class="clr-input">
+                    </div>
+                  </div>
+                  <div class="clr-form-control">
+                    <label [for]="'lesson-category-' + i + '-' + j" class="clr-control-label">Category</label>
+                    <div class="clr-control-container">
+                      <select [id]="'lesson-category-' + i + '-' + j" formControlName="categoryId" class="clr-select">
+                        <option value="">Select a category</option>
+                        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <h6>Sections</h6>
+                  <div formArrayName="sections">
+                    <div *ngFor="let section of lesson.get('sections').controls; let k = index">
+                      <div [formGroupName]="k">
+                        <h6>Section {{ k + 1 }}</h6>
+                        <div class="clr-form-control">
+                          <label [for]="'section-title-' + i + '-' + j + '-' + k" class="clr-control-label">Title</label>
+                          <div class="clr-control-container">
+                            <input [id]="'section-title-' + i + '-' + j + '-' + k" type="text" formControlName="title" class="clr-input">
+                          </div>
+                        </div>
+                        <div class="clr-form-control">
+                          <label [for]="'section-content-' + i + '-' + j + '-' + k" class="clr-control-label">Content</label>
+                          <div class="clr-control-container">
+                            <textarea [id]="'section-content-' + i + '-' + j + '-' + k" formControlName="content" class="clr-textarea"></textarea>
+                          </div>
+                        </div>
+                        <div class="clr-form-control">
+                          <label [for]="'section-category-' + i + '-' + j + '-' + k" class="clr-control-label">Category</label>
+                          <div class="clr-control-container">
+                            <select [id]="'section-category-' + i + '-' + j + '-' + k" formControlName="categoryId" class="clr-select">
+                              <option value="">Select a category</option>
+                              <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-secondary" (click)="addSection(lesson.get('sections'))">Add Section</button>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-secondary" (click)="addLesson(unit.get('lessons'))">Add Lesson</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-secondary" (click)="addUnit()">Add Unit</button>
+      </div>
+
+      <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Create' }} Course</button>
+    </form>
+  </div>
+</div>

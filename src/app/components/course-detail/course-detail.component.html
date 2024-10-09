@@ -1,0 +1,13 @@
+<div class="content-container">
+  <div class="content-area">
+    <h2>{{ course.title }}</h2>
+    <p>Price: ${{ course.price }}</p>
+    <button class="btn btn-primary" (click)="purchaseCourse()" [disabled]="!authService.isLoggedIn">
+      Purchase Course
+    </button>
+    <div *ngIf="!authService.isLoggedIn">
+      <p>Please sign in to purchase this course.</p>
+      <button class="btn btn-primary" (click)="authService.signInWithGoogle()">Sign in with Google</button>
+    </div>
+  </div>
+</div>
